@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # Lucius Bynum 2015
-
 ################################# DATA FORMATTING ###################################
 
 import random
@@ -145,16 +144,16 @@ def labelParse(dataList, size, removeOrKeep, label, label2=dummy, label3=dummy, 
         partition is desired
     
     inputs: dataList, a list of data in python svm-light form
-    		size, the size of the desired subset
-    		removeOrKeep, a string: if 'r', dataList will be destructively altered 
-    			and will no longer contain the subset that was created
-    		label, the first desired label
+            size, the size of the desired subset
+            removeOrKeep, a string: if 'r', dataList will be destructively altered 
+                and will no longer contain the subset that was created
+            label, the first desired label
             label2, the second desired label (optional--default value is 'label')
             label3, the third desired label (optional--default value is 'label')
             verbosity, 1 or 0 to print more or less (optional--default is 0)
             
     outputs: labelList, the specified subset of dataList randomly selected
-    		dataList, the original dataList either modified ('r') or preserved ('')
+            dataList, the original dataList either modified ('r') or preserved ('')
     """
 
     labelList = []
@@ -175,18 +174,18 @@ def labelParse(dataList, size, removeOrKeep, label, label2=dummy, label3=dummy, 
     random.shuffle(randomOrder)
     
     if case == 1: #subset contains only one type of label
-    	size1 = size
+        size1 = size
 
-    	for i in randomOrder:
-        	entry = dataList[i]
-        	if size1 == 0:
-        		break
-    		if entry[0] == label:
-            	   labelList.append(entry)
-            	   size1 -= 1
-
-            	   if removeOrKeep == 'r':
-            	       dataList[i] = 0
+        for i in randomOrder:
+            entry = dataList[i]
+            if size1 == 0:
+                break
+            if entry[0] == label:
+                    labelList.append(entry)
+                    size1 -= 1
+    
+                    if removeOrKeep == 'r':
+                        dataList[i] = 0
 
                 
     if case == 2: #subset contains two types of labels in equal amounts
@@ -195,15 +194,16 @@ def labelParse(dataList, size, removeOrKeep, label, label2=dummy, label3=dummy, 
         
         for i in randomOrder:
             entry = dataList[i]
-	    if size1 == 0 and size2 == 0:
+            if size1 == 0 and size2 == 0:
                 break
+                
             if entry[0] == label:
                 if size1 > 0:
                     labelList.append(entry)
                     size1 -= 1
 
                     if removeOrKeep == 'r':
-                    	dataList[i] = 0
+                        dataList[i] = 0
 
             if entry[0] == label2:
                 if size2 > 0:
@@ -211,7 +211,7 @@ def labelParse(dataList, size, removeOrKeep, label, label2=dummy, label3=dummy, 
                     size2 -= 1
 
                     if removeOrKeep == 'r':
-                    	dataList[i] = 0 
+                        dataList[i] = 0 
                 
     if case == 3: #subset contains three types of labels in equal amounts
         size1 = size / 3
@@ -222,13 +222,14 @@ def labelParse(dataList, size, removeOrKeep, label, label2=dummy, label3=dummy, 
             entry = dataList[i]
             if size1 == 0 and size2 == 0 and size3 == 0:
                 break
+                
             if entry[0] == label:
                 if size1 > 0:
                     labelList.append(entry)
                     size1 -= 1
 
                     if removeOrKeep == 'r':
-                    	dataList[i] = 0
+                        dataList[i] = 0
 
             if entry[0] == label2:
                 if size2 > 0:
@@ -236,7 +237,7 @@ def labelParse(dataList, size, removeOrKeep, label, label2=dummy, label3=dummy, 
                     size2 -= 1
 
                     if removeOrKeep == 'r':
-                    	dataList[i] = 0
+                        dataList[i] = 0
 
             if entry[0] == label3:
                 if size3 > 0:
@@ -244,37 +245,37 @@ def labelParse(dataList, size, removeOrKeep, label, label2=dummy, label3=dummy, 
                     size3 -= 1
 
                     if removeOrKeep == 'r':
-                    	dataList[i] = 0
+                        dataList[i] = 0
     
     if size1 != 0:
-        print 'FAILURE: Not enough vectors with label', label, 'for an even partition.'
+        print('FAILURE: Not enough vectors with label', label, 'for an even partition.')
         return 0
 
     if case == 2 and size2 != 0:
-        print 'FAILURE: Not enough vectors with label', label2, 'for an even partition.'
+        print('FAILURE: Not enough vectors with label', label2, 'for an even partition.')
         return 0
 
     if case == 3 and size3 != 0:
-        print 'FAILURE: Not enough vectors with label', label3, 'for an even partition.'
+        print('FAILURE: Not enough vectors with label', label3, 'for an even partition.')
         return 0
     
     if removeOrKeep == 'r':
-    	#remove labels marked for deletion
-    	dataList = [entry for entry in dataList if entry != 0]
+        #remove labels marked for deletion
+        dataList = [entry for entry in dataList if entry != 0]
     
     if verbosity != 0:
         if removeOrKeep == 'r':
-                print "DESTRUCTIVELY created a subset containing:"
+                print("DESTRUCTIVELY created a subset containing:")
         else:
-            print "Created a subset containing:"
+            print("Created a subset containing:")
 
-        print len(labelList)/case,"vectors with label", label
+        print(len(labelList)/case,"vectors with label", label)
 
         if case != 0:
-            print len(labelList)/case,"vectors with label", label2
+            print(len(labelList)/case,"vectors with label", label2)
 
         if case == 3:
-            print len(labelList)/case,"vectors with label", label3
+            print(len(labelList)/case,"vectors with label", label3)
         
     return labelList, dataList
         
@@ -342,7 +343,7 @@ def writeData(writeName, parseName, size, label, label2=dummy, label3=dummy):
     
     writeFile.close()
     
-    print 'DONE'
+    print('DONE')
 
 
 def replaceAll(dataset, oldLabel, newLabel):
@@ -350,7 +351,7 @@ def replaceAll(dataset, oldLabel, newLabel):
     """
     newDataset = dataset
     if oldLabel == newLabel:
-    	return newDataset
+        return newDataset
     
     for i in range(len(newDataset)):
         
@@ -372,7 +373,7 @@ def labelCount(dataset, label):
     for entry in dataset:
         if entry[0] == label:
             count += 1
-    print count, 'vectors with label', label 
+    print(count, 'vectors with label', label) 
     
     
 def writeFile(dataset, filename, variableName):
@@ -384,11 +385,13 @@ def writeFile(dataset, filename, variableName):
     
     writeFile.close()
     
-    print 'DONE'
+    print('DONE')
+
     
 ################################## SVM IMPLEMENTATION ########################################
+    
 
-def runSVMLight(trainName,testName, kerneltype, c_param = 1.0, gamma_param = 1.0, verbosity = 0):
+def runSVMLight(trainName,testName, kerneltype, c_param = 1.0, gamma_param = 1.0, VERBOSITY = 0):
     """
     converts data to python format only if not already in python format 
     (files in python format are of type list, otherwise they are filenames)
@@ -398,7 +401,7 @@ def runSVMLight(trainName,testName, kerneltype, c_param = 1.0, gamma_param = 1.0
             kerneltype, (str)the type of kernel (linear, polynomial, sigmoid, rbf, custom)
             c_param, the C parameter (default 1)
             gamma_param, the gamma parameter (default 1)
-            verbosity, 0, 1, or 2 for less or more information (default 0)
+            VERBOSITY, 0, 1, or 2 for less or more information (default 0)
     
     outputs: (positiveAccuracy, negativeAccuracy, accuracy)
     """
@@ -413,12 +416,18 @@ def runSVMLight(trainName,testName, kerneltype, c_param = 1.0, gamma_param = 1.0
     else:
         testData = sparseToList(testName)
         
-    if verbosity == 2:
-        print "Training svm......."
+    if VERBOSITY == 2:
+        print("Training svm.......")
 
     # train a model based on the data
-    model = svmlight.learn(trainingData, type='classification', verbosity=2, kernel=kerneltype, C = c_param, rbf_gamma = gamma_param )
+    ### Note: kerneltype must be a byte string ###
+    model = svmlight.learn(trainingData, type='classification', verbosity=VERBOSITY, kernel=kerneltype.encode('utf-8'), C=c_param, rbf_gamma=gamma_param)
+
+
+    ### Train without encoding kernel into byte string: ###
+        # model = svmlight.learn(trainingData, type='classification', verbosity=VERBOSITY, kernel=kerneltype, C=c_param, rbf_gamma=gamma_param )
     
+
     # model data can be stored in the same format SVM-Light uses, for interoperability
     # with the binaries.
     
@@ -427,8 +436,8 @@ def runSVMLight(trainName,testName, kerneltype, c_param = 1.0, gamma_param = 1.0
     # else:
     #     svmlight.write_model(model, trainName[:-4]+'_model.dat')
     
-    if verbosity == 2:
-        print "Classifying........"
+    if VERBOSITY == 2:
+        print("Classifying........")
 
     # classify the test data. this function returns a list of numbers, which represent
     # the classifications.
@@ -444,9 +453,10 @@ def runSVMLight(trainName,testName, kerneltype, c_param = 1.0, gamma_param = 1.0
     # print 'Correct Labels:'
     # print correctLabels
 
-    return predictionCompare(predictions, correctLabels, verbosity)
+    return predictionCompare(predictions, correctLabels, VERBOSITY)
         
     #return predictions == rando('predictions_copy.txt')
+    
     
 ################################## COMPARING RESULTS ########################################
 
@@ -485,9 +495,9 @@ def predictionCompare(predictions, correctLabels, verbosity = 0):
         if float(predictions[i])*correctLabels[i] <= 0:
             numberOfMistakes += 1
             if correctLabels[i] < 0:
-            	incorrectPositives += 1
+                incorrectPositives += 1
             else:
-            	incorrectNegatives += 1
+                incorrectNegatives += 1
 
     accuracy = 1 - float(numberOfMistakes)/numberOfPoints
 
@@ -495,10 +505,10 @@ def predictionCompare(predictions, correctLabels, verbosity = 0):
     positiveTotal = 0
     negativeTotal = 0
     for i in range(len(predictions)):
-    	if predictions[i] > 0:
-    		positiveTotal += 1
-    	else:
-    		negativeTotal += 1
+        if predictions[i] > 0:
+            positiveTotal += 1
+        else:
+            negativeTotal += 1
 
     correctPositiveTotal = 0
     correctNegativeTotal = 0
@@ -520,14 +530,14 @@ def predictionCompare(predictions, correctLabels, verbosity = 0):
     accuracy *= 100
     
     if verbosity == 1:
-        print 'Accuracy on test set: ', accuracy, '%', '(', numberOfMistakes, 'misclassified,', numberOfPoints, 'total )'
+        print('Accuracy on test set: ', accuracy, '%', '(', numberOfMistakes, 'misclassified,', numberOfPoints, 'total )')
     
     if verbosity == 2:
         if float(0) in predictions:
-            print 'Positive predictions: N/A due to zero valued predictions'
-            print 'Negative predictions: N/A due to zero valued predictions'
+            print('Positive predictions: N/A due to zero valued predictions')
+            print('Negative predictions: N/A due to zero valued predictions')
         else:
-            print 'Accuracy on positive labels: ', positiveAccuracy, '%', '(', incorrectPositives, 'incorrect positive labels,', positiveTotal - incorrectPositives, 'correct positive labels )'
-            print 'Accuracy on negative labels: ', negativeAccuracy, '%', '(', incorrectNegatives, 'incorrect negative labels,', negativeTotal - incorrectNegatives, 'correct negative labels )'
+            print('Accuracy on positive labels: ', positiveAccuracy, '%', '(', incorrectPositives, 'incorrect positive labels,', positiveTotal - incorrectPositives, 'correct positive labels )')
+            print('Accuracy on negative labels: ', negativeAccuracy, '%', '(', incorrectNegatives, 'incorrect negative labels,', negativeTotal - incorrectNegatives, 'correct negative labels )')
     
     return positiveAccuracy, negativeAccuracy, accuracy
